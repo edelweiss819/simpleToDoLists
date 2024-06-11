@@ -1,0 +1,14 @@
+.AddButton {
+    display: inline-block;
+    height: 1.375rem;
+    width: 2.3rem;
+    background-color: var(--primary-gray);
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    font-weight: bold;
+
+}

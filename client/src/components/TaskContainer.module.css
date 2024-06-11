@@ -1,0 +1,10 @@
+
+.TasksContainerTitle {
+    margin-bottom: 0.875rem;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.063rem;
+    text-align: left;
+    color: var(--secondary-gray);
+}

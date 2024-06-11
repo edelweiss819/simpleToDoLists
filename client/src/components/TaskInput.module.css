@@ -1,0 +1,15 @@
+.TaskInputWrapper {
+    display: flex;
+}
+
+.TaskInput {
+    flex-grow: 9;
+    height: 1.375rem;
+    border: 0.125rem solid var(--primary-gray);
+    border-radius: 0.313rem;
+    margin-right: 0.75rem;
+}
+
+.TaskInputButton {
+    flex-grow: 1;
+}

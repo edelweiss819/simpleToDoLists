@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+:root {
+    --primary-gray: #1D2939;
+    --secondary-gray: #98A2B3;
+}
+
+.App {
+    display: grid;
+    grid-template-columns: calc(min(30%, 150px)) minmax(0, 1fr); /* Первый столбец 15%, но не больше 15px, второй - остальное пространство */
+    height: 100vh;
+}
