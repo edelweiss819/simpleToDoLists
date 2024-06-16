@@ -6,6 +6,7 @@ import App from './App.jsx';
 import store from './store/store.js';
 import './index.css';
 
+
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')).render(

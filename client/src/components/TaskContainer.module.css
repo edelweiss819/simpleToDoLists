@@ -8,3 +8,13 @@
     text-align: left;
     color: var(--secondary-gray);
 }
+
+.CompletedMessage {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 2.125rem;
+    color: var(--primary-gray);
+    text-align: left;
+    margin-bottom: 10px;
+}

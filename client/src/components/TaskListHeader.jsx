@@ -3,19 +3,18 @@ import styles from './TaskListHeader.module.css';
 import axios from 'axios';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import RemoveList from './RemoveList.jsx';
+import { ipp } from '../../ip.js';
 
 
 function TaskListHeader({toDoListId}) {
 	
 	const queryClient = useQueryClient();
-	
-	
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedText, setEditedText] = useState(toDoListId.title || '');
 	
 	
 	const changeToDoListTitleReq = async (title) => {
-		await axios.put(`http://localhost:3000/api/ChangeToDoListTitleById/${toDoListId}`, {title});
+		await axios.put(`http://${ipp}/api/ChangeToDoListTitleById/${toDoListId}`, {title});
 	};
 	
 	
@@ -23,7 +22,8 @@ function TaskListHeader({toDoListId}) {
 			mutationFn : changeToDoListTitleReq,
 			onSuccess : (data, variables) => {
 				console.log('Название листа изменено!', variables);
-				queryClient.invalidateQueries(['toDoListTitle']);
+				queryClient.invalidateQueries({queryKey : ['toDoListTitle']});
+				queryClient.invalidateQueries({queryKey : ['toDoListsArr']});
 			},
 			onError : (error) => {
 				console.log('Ошибка!', error);
@@ -32,7 +32,7 @@ function TaskListHeader({toDoListId}) {
 	);
 	
 	const fetchListHeader = async (id) => {
-		const response = await axios.get(`http://localhost:3000/api/toDoListsById/${id}`);
+		const response = await axios.get(`http://${ipp}/api/toDoListsById/${id}`);
 		return response.data.title;
 	};
 	
@@ -49,6 +49,7 @@ function TaskListHeader({toDoListId}) {
 	
 	
 	const handleTitleTextClick = (event) => {
+		setEditedText(data);
 		setIsEditing(true);
 	};
 	
@@ -59,6 +60,7 @@ function TaskListHeader({toDoListId}) {
 	const handleSaveChangedText = (event) => {
 		setIsEditing(false);
 		changeToDoListTitle.mutate(editedText);
+		setEditedText('');
 	};
 	
 	const handleKeyPress = (event) => {
@@ -80,11 +82,10 @@ function TaskListHeader({toDoListId}) {
 				/>) :
 				(<div className={styles.TaskListHeaderTitle}
 					  onClick={handleTitleTextClick}>
-					{( !data) ? 'Добавить лист' : data}
+					{( !data) ? 'Новый лист' : data}
 				</div>)}
-			<div className={styles.TaskListHeaderAction}>
-				<RemoveList toDoListId={toDoListId}/>
-			</div>
+			<RemoveList className={styles.TaskListHeaderAction}
+						toDoListId={toDoListId}/>
 		</div>
 	);
 }

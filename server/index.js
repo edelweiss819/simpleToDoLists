@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
-const {v4 : uuidv4} = require('uuid');
+// const {v4 : uuidv4} = require('uuid');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -48,35 +48,51 @@ app.get('/', (req, res) => {
 app.get('/api/todolists', (req, res) => {
 	res.json(toDoLists);
 });
-//Первый Туду Лист
-app.get('/api/getFirstToDoListId', (req, res) => {
-	const firstToDoListId = Object.values(toDoLists)[0].id;
-	res.json({firstToDoListId});
-});
 
-//Получение массива Туду Листов c их id
+
+// Endpoint для получения листов с сортировкой по дате создания
 app.get('/api/getToDoListsTitlesWithIdArr', (req, res) => {
-	const toDoListsTitleWithId = Object.entries(toDoLists).reduce((acc, [name, info]) => {
-		acc[name] = {title : info.title, id : info.id};
-		return acc;
-	}, {});
+	const toDoListsTitleWithId = Object.values(toDoLists)
+		.map(item => ({
+			title : item.title,
+			id : item.id,
+			createdAt : new Date(item.createdAt).getTime(), // Преобразуем дату в timestamp
+		}))
+		.sort((a, b) => b.createdAt - a.createdAt); // Сортируем по убыванию даты создания
+	
 	res.json(toDoListsTitleWithId);
 });
 
 
 // Создание нового ToDoList
 app.post('/api/postToDoList', (req, res) => {
-	const {title} = req.body;
-	const id = uuidv4();
+	const {title, id} = req.body;
+	// const id = uuidv4();
+	const createdAt = new Date();
 	const newTodoList = {
 		id,
 		title,
+		createdAt,
 		content : [],
 	};
 	
+	// Возвращаем id вместе с новым ToDoList в ответе на запрос
+	const responseTodoList = {...newTodoList, id};
+	
 	toDoLists[title] = newTodoList;
 	fs.writeFileSync(dbFilePath, JSON.stringify(toDoLists), 'utf8');
-	res.status(201).json(newTodoList);
+	res.status(201).json(responseTodoList); // Отправляем новый ToDoList с id в ответе
+});
+//Первый Туду Лист
+app.get('/api/getFirstToDoListId', (req, res) => {
+	const firstToDoListId = Object.values(toDoLists)[0].id;
+	res.json({firstToDoListId});
+});
+//Последний Туду Лист
+app.get('/api/getLastToDoListId', (req, res) => {
+	const lastToDoList = Object.values(toDoLists).slice(-1)[0];
+	const lastToDoListId = lastToDoList.id;
+	res.json({lastToDoListId});
 });
 
 
@@ -113,8 +129,15 @@ app.put('/api/ChangeToDoListTitleById/:id', (req, res) => {
 		return res.status(404).json({error : 'ToDoList not found!'});
 	}
 	
+	// Удаляем старый ключ и сохраняем его значение
+	const oldTitle = foundToDoList.title;
+	delete toDoLists[oldTitle];
+	
 	// Обновляем название списка дел
 	foundToDoList.title = title;
+	
+	// Создаем новый ключ с обновленным названием и старым значением
+	toDoLists[title] = foundToDoList;
 	
 	// Записываем обновленные данные обратно в файл db.json
 	fs.writeFileSync(dbFilePath, JSON.stringify(toDoLists), 'utf8');
@@ -218,7 +241,8 @@ app.delete('/api/todolists/:todo_list_id/:task_id', (req, res) => {
 // Запуск сервера
 
 
-app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`);
-});
+const ip = '192.168.0.102';
 
+app.listen(PORT, ip, () => {
+	console.log(`Server is running on http://${ip}:${PORT}`);
+});

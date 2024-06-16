@@ -1,6 +1,6 @@
 .TaskContainer {
     display: grid;
-    grid-template-columns: 5% 87% 5%;
+    grid-template-columns: 3% 93% 3%;
     align-items: center;
     justify-content: center;
     height: 1.875rem;
@@ -8,23 +8,30 @@
     background-color: gray;
     border-radius: 5px;
     width: 100%;
-
 }
 
 .TaskText {
-    padding-left: 0.75rem;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.375rem;
     text-align: left;
     color: var(--primary-gray);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin-right: 1rem;
 }
 
 .TaskStatus {
+    cursor: pointer;
+    justify-self: start;
+    margin-left: 1rem;
 }
 
 .DeleteButton {
+    cursor: pointer;
     margin-top: 0.3rem;
     justify-self: end;
 }
@@ -32,4 +39,23 @@
 .DeleteButton > svg {
     width: 20px;
     height: 20px;
+}
+
+
+@media (max-width: 1000px) {
+    .TaskContainer {
+        grid-template-columns: 3% 90% 3%;
+    }
+
+    .TaskText {
+        margin-left: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+}
+
+@media (max-width > 480px) {
+
 }

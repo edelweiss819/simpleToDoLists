@@ -25,6 +25,13 @@
     border-radius: 5px;
 }
 
+@media (max-width: 600px) {
+    .AddTaskModal {
+        margin-top: -70%;
+    }
+
+}
+
 .AddTaskModalTitle {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     font-size: 20px;

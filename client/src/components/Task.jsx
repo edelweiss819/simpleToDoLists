@@ -3,6 +3,7 @@ import StatusCircle from '../assets/StatusCircle.jsx';
 import styles from './Task.module.css';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { ipp } from '../../ip.js';
 import DeleteButton from './ui/DeleteButton.jsx';
 
 function Task({task, toDoListId, ...props}) {
@@ -11,7 +12,7 @@ function Task({task, toDoListId, ...props}) {
 	const [editedText, setEditedText] = useState(task.ToDoContent);
 	
 	const putTaskStatusReq = async (status) => {
-		await axios.put(`http://localhost:3000/api/todolists/${toDoListId}/${task.id}`, {status});
+		await axios.put(`http://${ipp}/api/todolists/${toDoListId}/${task.id}`, {status});
 	};
 	
 	const taskStatusToggler = async () => {
@@ -32,7 +33,7 @@ function Task({task, toDoListId, ...props}) {
 	});
 	
 	const deleteTaskReq = async () => {
-		await axios.delete(`http://localhost:3000/api/todolists/${toDoListId}/${task.id}`);
+		await axios.delete(`http://${ipp}/api/todolists/${toDoListId}/${task.id}`);
 	};
 	
 	const deleteTask = useMutation({
@@ -40,7 +41,6 @@ function Task({task, toDoListId, ...props}) {
 		onSuccess : () => {
 			// console.log('Задача удалена!');
 			queryClient.invalidateQueries({queryKey : ['toDoListContent']});
-			queryClient.invalidateQueries({queryKey : ['toDoListTitle']});
 		},
 		onError : (error) => {
 			console.log('Ошибка!', error);
@@ -48,7 +48,7 @@ function Task({task, toDoListId, ...props}) {
 	});
 	
 	const changeTaskContentReq = async (newContent) => {
-		await axios.put(`http://localhost:3000/api/todolists/${toDoListId}/${task.id}`, {newContent});
+		await axios.put(`http://${ipp}/api/todolists/${toDoListId}/${task.id}`, {newContent});
 	};
 	
 	
@@ -102,7 +102,7 @@ function Task({task, toDoListId, ...props}) {
 			{isEditing ? (
 				<input
 					type="text"
-					className={styles.text}
+					className={styles.TaskText}
 					value={editedText}
 					onChange={handleTextChange}
 					onBlur={handleEditSave}

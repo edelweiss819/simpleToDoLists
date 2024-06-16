@@ -6,7 +6,7 @@ const addListModal = createSlice({
 	initialState : false,
 	reducers : {
 		setOpenModal(state, action) {
-			console.log('Clicked!');
+			// console.log('Clicked!');
 			return action.payload;
 		},
 	},

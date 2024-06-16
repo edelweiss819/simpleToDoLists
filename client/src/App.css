@@ -29,5 +29,9 @@ a {
 .App {
     display: grid;
     grid-template-columns: calc(min(30%, 150px)) minmax(0, 1fr); /* Первый столбец 15%, но не больше 15px, второй - остальное пространство */
-    height: 100vh;
+    min-height: 100vh;
+}
+
+.ClosedMenu {
+    grid-template-columns: min-content minmax(0, 1fr);
 }

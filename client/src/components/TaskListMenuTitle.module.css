@@ -4,4 +4,24 @@
     border-radius: 4px;
     margin-left: 10px;
     padding: 3px;
+    cursor: pointer;
+
+    overflow: hidden; /* Скрыть текст, выходящий за пределы */
+    white-space: nowrap; /* Ограничить текст одной строкой */
+    text-overflow: ellipsis; /* Добавить многоточие (...) в конце обрезанного текста */
+    max-width: 100%; /* Ограничить максимальную ширину, чтобы текст не выходил за границы */
+}
+
+.SelectedListTitle {
+    margin-right: 10px;
+    border: 1px var(--primary-gray) solid;
+    border-radius: 4px;
+    margin-left: 10px;
+    padding: 3px;
+    cursor: pointer;
+    background-color: gray;
+    overflow: hidden; /* Скрыть текст, выходящий за пределы */
+    white-space: nowrap; /* Ограничить текст одной строкой */
+    text-overflow: ellipsis; /* Добавить многоточие (...) в конце обрезанного текста */
+    max-width: 100%; /* Ограничить максимальную ширину, чтобы текст не выходил за границы */
 }

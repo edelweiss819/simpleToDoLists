@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './TaskListsMenu.module.css';
+import React, { useState } from 'react';
+import styles from './MenuBurger.module.css';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,11 +7,20 @@ import { showId } from '../store/slices/selectedToDoListSlice.jsx';
 import { setOpenModal } from '../store/slices/addListModalSlice.jsx';
 import TaskListMenuTitle from './TaskListMenuTitle.jsx';
 import { ipp } from '../../ip.js';
+import TaskListsMenu from './TaskListsMenu.jsx';
+import {
+	toggleMenu,
+} from '../store/slices/menuBurgerSlice.jsx';
 
 
-function TaskListsMenu(props) {
+function MenuBurger(props) {
 	const dispatch = useDispatch();
+	const menuBurgerState = useSelector(state => state.menuBurger);
 	const openModal = useSelector(state => state.addListModal);
+	
+	const toggleBurger = () => {
+		dispatch(toggleMenu( !menuBurgerState));
+	};
 	
 	
 	const fetchToDoLists = async () => {
@@ -51,7 +60,7 @@ function TaskListsMenu(props) {
 	/*
 	 // Альтернативный способ, без CSS
 	 // Обработка маленьких экранов
-	 // <= 380px - 7 symbols, <= 470px - 9 symbols, >470px - 12 symblos
+	 // <= 380px - 7 symbols, <= 470px - 9 symbols, >470px - 12 symbols
 	 const handleLongTitle = (listInfo) => {
 	 let titleLength;
 	 if (window.matchMedia('(max-width: 380px)').matches) {
@@ -71,26 +80,43 @@ function TaskListsMenu(props) {
 	
 	
 	return (
-		<div className={styles.TaskListsMenu}>
-			<div className={styles.TaskListsMenuHeader}>Листы</div>
-			
-			<div className={styles.TaskListsWrapper}>
-				{data.map((listInfo) => (
-					<TaskListMenuTitle
-						key={listInfo.id}
-						title={listInfo.title}
-						id={listInfo.id}
-						onClick={() => handleTaskTitleClick(listInfo.id)}
-					/>
-				))}
-				
-				<div className={styles.AddTaskList}
-					 onClick={handleClickOnPlus}>+
+		(menuBurgerState) ? (<div className={styles.TaskListsMenu}>
+				<div className={styles.TaskListsMenuHeader}>
+					<div className={styles.BurgerMenu} onClick={toggleBurger}>
+						<div className={styles.BurgerLine}></div>
+						<div className={styles.BurgerLine}></div>
+						<div className={styles.BurgerLine}></div>
+					</div>
 				</div>
-			
+				
+				<div className={styles.TaskListsWrapper}>
+					{data.map((listInfo) => (
+						<TaskListMenuTitle
+							key={listInfo.id}
+							title={listInfo.title}
+							id={listInfo.id}
+							onClick={() => handleTaskTitleClick(listInfo.id)}
+						/>
+					))}
+					
+					<div className={styles.AddTaskList}
+						 onClick={handleClickOnPlus}>+
+					</div>
+				
+				</div>
+			</div>) :
+			<div className={styles.TaskListsMenu}>
+				<div className={styles.TaskListsMenuHeader}>
+					<div className={styles.ClosedBurgerMenu}
+						 onClick={toggleBurger}>
+						<div className={styles.ClosedBurgerLine}></div>
+						<div className={styles.ClosedBurgerLine}></div>
+						<div className={styles.ClosedBurgerLine}></div>
+					</div>
+				</div>
 			</div>
-		</div>
+	
 	);
 }
 
-export default TaskListsMenu;
+export default MenuBurger;

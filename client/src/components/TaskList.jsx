@@ -4,7 +4,7 @@ import TasksContainer from './TasksContainer.jsx';
 import TaskInput from './TaskInput.jsx';
 import styles from './TaskList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInitialState } from '../slices/selectedToDoListSlice.jsx';
+import { fetchInitialState } from '../store/slices/selectedToDoListSlice.jsx';
 import AddList from './modal/AddList.jsx';
 
 
